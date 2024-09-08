@@ -1,0 +1,30 @@
+QUESTION ❔
+
+Beijing Bytes, a fast-growing chain of restaurants, recently integrated a new Point of Sale (POS) system to enhance customer transactions and stock management. However, the integration has introduced challenges, including occasional system outages during peak hours and delays in synchronizing data between the POS system and their customer engagement software.
+
+As a TechOps professional, your task is to analyze the current state of the POS system integration, identify pain points, and propose solutions to optimize the integration process.
+
+Your submission will be evaluated based on the depth of your integration analysis, the clarity and feasibility of your solution proposal, the transparency in your process documentation, and the effectiveness of your communication plan.
+
+
+ANSWER 👍
+
+So Beijing byte is a chain of restaurants and they integrated a new Point Of Sale(POS) system which is inconsistent and unavailable during peak hours.
+
+My approach: 
+
+technology suggested :- Prometheus (monnitoring service), kafka / rabbitMQ / redis pub-sub , load balancer( can be from aws / azure / gcp / build in house )
+
+
+To resolve the inconsistencies and outages faced by Beijing Byte's new Point of Sale(POS) system during peak hours
+
+step 1 : we need to start by identifying which service is creating the bottleneck. For this, tools like Prometheus can be used to monitor system performance and pinpoint the exact service responsible for the issues.
+
+step 2 : Once the bottleneck is identified, we can set up a load balancer and scale the affected service horizontally to handle increased traffic during peak times, ensuring it does not get overwhelmed.
+
+step 3 : To further optimize the integration, a hybrid architecture can be implemented using both an event-driven approach and the pub/sub model. Whenever a user places an order, the order event can be published to a message queue using systems like Kafka, RabbitMQ, or Redis Pub/Sub. This queue will be monitored for any backlogs, and a retry mechanism will be established to ensure reliability in case any service fails to process the event.This event-driven architecture will decouple the services by triggering events that are listened to by both the customer engagement software and the stock management system. This way, both systems can update accordingly without depending on one another, improving system scalability and fault tolerance.
+
+
+If the traffic is not really high then we can use auto scaling but if the traffic is really high like millions of requests per hr then we need to scale ourselves by identifying when and why we get so many requests. This said approach of knowing when to scale is also being used by hotStar the OTT platform. 
+
+We might also have to look at our database queries and optimize them because unoptimized queries are just as much responsible for system outages as high traffic, leading to slow response times and increased load on the database during peak hours.
